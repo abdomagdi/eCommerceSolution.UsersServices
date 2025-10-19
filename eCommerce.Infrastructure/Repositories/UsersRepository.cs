@@ -44,5 +44,14 @@ namespace eCommerce.Infrastructure.Repositories
             //    Gender=GenderOptions.Male.ToString(),               
             //};
         }
+
+        public async Task<ApplicationUser?> GetUserByUserID(Guid? userID)
+        {
+            string query = "SELECT * FROM  public.\"Users\" WHERE \"UserID\" =@UserID";
+            var parameters = new { UserID = userID };
+            using var connection = _dbContext.DbConnection;
+            ApplicationUser? user = await connection.QueryFirstOrDefaultAsync<ApplicationUser>(query, parameters);
+            return user;
+        }
     }
 }
